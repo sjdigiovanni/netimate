@@ -85,6 +85,7 @@ netimate run show-version on r1
 ```yaml
 device_repo: yaml               # plugin name
 log_level: info                 # off | info | debug
+template_paths: ["netimate.plugins.device_commands.templates"]  
 
 plugin_configs:
   yaml:
@@ -93,7 +94,7 @@ plugin_configs:
     transport_options:
       asyncssh:
          known_hosts_file: ~/user/.ssh/file.txt
-template_paths: ["netimate.plugins.device_commands.templates"]  
+
 ```
 
 * **`device_repo`** – which `DeviceRepository` plugin to load (`yaml`, `postgres`, etc.).  
