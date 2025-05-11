@@ -49,7 +49,9 @@ test = [
     "ruff",
     "radon",
     "import-linter",
-    "mypy"
+    "mypy",
+    "types-PyYAML",
+    "types-toml"
 ]
 
 [project.urls]
