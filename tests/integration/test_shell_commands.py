@@ -1,14 +1,10 @@
 # SPDX-License-Identifier: MPL-2.0
+import datetime
+import os
 import subprocess
 import sys
-import os
-import datetime
-import pytest
-
 from pathlib import Path
 from unittest import mock
-
-from netimate.application.application import Application
 
 
 def test_shell_run_invalid_command(temp_device_and_settings_files):

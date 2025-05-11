@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MPL-2.0
+from netimate.core.plugin_engine.plugin_registry import PluginKind, PluginRegistry
 from netimate.core.plugin_engine.registrar import PluginRegistrar
-from netimate.core.plugin_engine.plugin_registry import PluginRegistry, PluginKind
 
 
 class DummyCommand:

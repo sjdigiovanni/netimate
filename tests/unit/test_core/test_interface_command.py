@@ -7,7 +7,7 @@ class DummyCommand(DeviceCommand):
         super().__init__(template_provider)
 
     def template_file(self) -> str:
-        pass
+        return ""
 
     @property
     def plugin_name(self):

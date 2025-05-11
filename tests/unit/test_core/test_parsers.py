@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: MPL-2.0
 import pytest
+
 from netimate.view.shell.parsers import parse_run_syntax
 
 

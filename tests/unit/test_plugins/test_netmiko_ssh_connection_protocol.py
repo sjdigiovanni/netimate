@@ -1,8 +1,10 @@
 # SPDX-License-Identifier: MPL-2.0
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
-from netimate.plugins.connection_protocols.netmiko.ssh import NetmikoSSHConnectionProtocol
+
 from netimate.models.device import Device
+from netimate.plugins.connection_protocols.netmiko.ssh import NetmikoSSHConnectionProtocol
 
 
 @pytest.mark.asyncio

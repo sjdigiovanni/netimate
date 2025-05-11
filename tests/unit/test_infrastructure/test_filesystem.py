@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MPL-2.0
-from pathlib import Path
 
 import pytest
+
 from netimate.infrastructure.template_provider.filesystem import FileSystemTemplateProvider
 
 

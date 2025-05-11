@@ -2,25 +2,26 @@
 from unittest.mock import Mock
 
 from rich.console import Console
+
 from netimate.plugins.device_commands.show_environment import ShowEnvironment
+from netimate.plugins.device_commands.show_ip_interface_brief import ShowIpInterfaceBrief
 from netimate.plugins.device_commands.show_logging import ShowLogging
 from netimate.plugins.device_commands.show_memory_stats import ShowMemoryStats
 from netimate.plugins.device_commands.show_process_cpu import ShowProcessCpu
-from netimate.plugins.device_commands.show_ip_interface_brief import ShowIpInterfaceBrief
 from netimate.plugins.device_commands.show_version import ShowVersion
-from tests.outputs import SHOW_VERSION_RAW, SHOW_VERSION_PARSED
-
 from tests.outputs import (
-    SHOW_ENVIRONMENT_RAW,
-    SHOW_IP_INTERFACE_BRIEF_RAW,
-    SHOW_LOGGING_RAW,
-    SHOW_MEMORY_STATS_RAW,
-    SHOW_PROCESS_CPU_RAW,
     SHOW_ENVIRONMENT_PARSED,
+    SHOW_ENVIRONMENT_RAW,
     SHOW_IP_INTERFACE_BRIEF_PARSED,
+    SHOW_IP_INTERFACE_BRIEF_RAW,
     SHOW_LOGGING_PARSED,
+    SHOW_LOGGING_RAW,
     SHOW_MEMORY_STATS_PARSED,
+    SHOW_MEMORY_STATS_RAW,
     SHOW_PROCESS_CPU_PARSED,
+    SHOW_PROCESS_CPU_RAW,
+    SHOW_VERSION_PARSED,
+    SHOW_VERSION_RAW,
 )
 
 

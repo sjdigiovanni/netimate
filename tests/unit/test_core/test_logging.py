@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: MPL-2.0
-from netimate.infrastructure.logging import configure_logging
 import logging
+
+from netimate.infrastructure.logging import configure_logging
 
 
 def test_configure_logging_basic():

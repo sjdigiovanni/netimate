@@ -1,7 +1,7 @@
 # Makefile for netimate Development
 
 PYTHON=python
-PKG=netimate
+PKG=.
 TESTDIR=tests
 
 .DEFAULT_GOAL := help
@@ -17,7 +17,7 @@ lint: ## Lint code with ruff
 	ruff check $(PKG)
 
 type-check: ## Run static type checking with mypy
-	mypy $(PKG)
+	mypy $(PKG) --exclude build/
 
 test: ## Run tests with coverage
 	pytest $(TESTDIR) --cov=$(PKG) --cov-report=term-missing
