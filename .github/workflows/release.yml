@@ -14,32 +14,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: ⬇️ Checkout
+    - name: Checkout
       uses: actions/checkout@v4
 
-    - name: 💡 Set up Python
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
 
-    - name: ✨ Install dependencies
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install .[test] build twine toml semver
 
-    - name: ✅ Run checks (black, ruff, mypy, pytest)
+    - name: Run checks (black, ruff, mypy, pytest)
       run: |
         black --check .
-        ruff .
+        ruff check .
         mypy .
         pytest
 
-    - name: 🔄 Bump version (minor)
+    - name: Bump version (minor)
       id: bump
       run: |
         python scripts/bump_version.py minor
 
-    - name: 🔖 Commit & tag version bump
+    - name: Commit & tag version bump
       env:
         GH_TOKEN: ${{ secrets.GH_PAT }}
       run: |
@@ -51,10 +51,10 @@ jobs:
         git tag v$VERSION
         git push origin main --follow-tags
 
-    - name: 📅 Build package
+    - name: Build package
       run: python -m build
 
-    - name: 🚀 Publish to PyPI
+    - name: Publish to PyPI
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
