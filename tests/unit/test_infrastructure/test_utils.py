@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: MPL-2.0
 import os
+
 import pytest
 
 from netimate.infrastructure.utils.file_management import find_file_upward

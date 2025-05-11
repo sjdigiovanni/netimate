@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: MPL-2.0
 import asyncio
+
 from netimate.interfaces.plugin.connection_protocol import ConnectionProtocol
 from netimate.models.device import Device
 

@@ -3,11 +3,11 @@ from os.path import expanduser
 from unittest.mock import AsyncMock, patch
 
 import pytest
+
 from netimate.plugins.connection_protocols.scrapli.asyncssh import (
-    ScrapliAsyncsshConnectionProtocol,
     PLATFORM_DRIVERS,
+    ScrapliAsyncsshConnectionProtocol,
 )
-from netimate.models.device import Device
 
 
 @pytest.mark.asyncio

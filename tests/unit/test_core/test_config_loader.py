@@ -1,9 +1,11 @@
 # SPDX-License-Identifier: MPL-2.0
+import sys
+
 import pytest
+
+from netimate.core.plugin_engine.loader import PluginLoader
 from netimate.infrastructure.config_loader import ConfigLoader
 from netimate.infrastructure.settings import SettingsImpl
-from netimate.core.plugin_engine.loader import PluginLoader
-import sys
 
 
 def test_config_loader_minimal(temp_device_and_settings_files):

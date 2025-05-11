@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: MPL-2.0
+import yaml
+
 from netimate.infrastructure.settings import SettingsImpl
 from netimate.plugins.device_repositories.yaml import YamlDeviceRepository
-import yaml
 
 
 def test_yaml_repository_list_devices(temp_device_and_settings_files):

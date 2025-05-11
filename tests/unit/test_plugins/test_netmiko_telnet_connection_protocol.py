@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: MPL-2.0
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
+
 from netimate.plugins.connection_protocols.netmiko.telnet import NetmikoTelnetConnectionProtocol
 
 

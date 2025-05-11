@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: MPL-2.0
 import os
 from pathlib import Path
+from unittest.mock import MagicMock
 
 import pytest
 
-from netimate.composition import composition_root
-from unittest.mock import MagicMock
 from netimate.application.application import Application
+from netimate.composition import composition_root
 from netimate.core.plugin_engine.plugin_registry import PluginRegistry
 
 

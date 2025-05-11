@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MPL-2.0
+import os
 import subprocess
 import sys
-import os
 
 
 def test_shell_starts_and_exits(temp_device_and_settings_files):

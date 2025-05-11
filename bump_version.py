@@ -1,6 +1,7 @@
-import toml
-import semver
 import sys
+
+import semver
+import toml
 
 PYPROJECT_PATH = "pyproject.toml"
 VERSION_FILE = "VERSION"
@@ -41,7 +42,7 @@ def bump_version(bump_type):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2 or sys.argv[1] not in ALLOWED_BUMPS:
-        print(f"Usage: python bump_version.py [major|minor|patch]")
+        print("Usage: python bump_version.py [major|minor|patch]")
         sys.exit(1)
 
     bump_version(sys.argv[1])

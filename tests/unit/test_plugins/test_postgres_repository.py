@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: MPL-2.0
-from unittest.mock import patch, MagicMock
-from netimate.plugins.device_repositories.postgres import PostgresDeviceRepository
+from unittest.mock import MagicMock, patch
+
 from netimate.models.device import Device
+from netimate.plugins.device_repositories.postgres import PostgresDeviceRepository
 
 
 class FakeSettings:

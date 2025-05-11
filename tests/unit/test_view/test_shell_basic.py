@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: MPL-2.0
 import pytest
+
 from netimate.view.shell.shell_session import netimateShellSession as Shell
 
 
