@@ -29,9 +29,9 @@ jobs:
 
     - name: Run checks (black, ruff, mypy, pytest)
       run: |
-        black --check .
-        ruff check .
-        mypy .
+        black --check . --exclude '^(build|dist|\.venv)/'
+        ruff check . --exclude '^(build|dist|\.venv)/'
+        mypy . --exclude '^(build|dist|\.venv)/'
         pytest
 
     - name: Bump version (minor)
