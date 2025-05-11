@@ -20,3 +20,6 @@ dist/
 dev_metrics/
 
 snapshots
+
+settings.yaml
+devices.yaml
