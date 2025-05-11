@@ -90,7 +90,7 @@ template_paths: ["netimate.plugins.device_commands.templates"]
 plugin_configs:
   yaml:
     device_file: devices.yaml   # path to inventory
-  scrapli_async_ssh:
+  scrapli_asyncssh:
     transport_options:
       asyncssh:
          known_hosts_file: ~/user/.ssh/file.txt
