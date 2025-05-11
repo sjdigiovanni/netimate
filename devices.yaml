@@ -1,0 +1,16 @@
+devices:
+  - name: r1
+    host: 10.10.20.171
+    username: cisco
+    password: cisco
+    protocol: 'scrapli-asyncssh'
+    platform: iosxe
+    site: dev
+
+  - name: r2
+    host: 10.10.20.172
+    username: cisco
+    password: cisco
+    protocol: 'scrapli-asyncssh'
+    platform: iosxe
+    site: dev

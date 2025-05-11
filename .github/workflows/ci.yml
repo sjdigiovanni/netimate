@@ -1,0 +1,57 @@
+name: netimate CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install .[test]
+        pip install black ruff mypy import-linter types-PyYAML radon vulture
+
+    - name: Format code (black + ruff import sort check)
+      run: |
+        black --check .
+        ruff check netimate --select I
+
+    - name: Lint code (ruff full linting)
+      run: |
+        ruff check netimate
+
+    - name: Type check (mypy)
+      run: |
+        mypy netimate
+
+    - name: Run tests
+      run: |
+        pytest --cov=netimate --cov-report=term-missing
+      env:
+        NETIMATE_EXTRA_PLUGIN_PACKAGES: tests.fakes
+
+    - name: Import Linter
+      run: |
+        lint-imports --config .importlinter.ini
+
+    - name: Complexity (radon)
+      run: |
+        radon cc netimate -s -a
+
+    - name: Maintainability (radon)
+      run: |
+        radon mi netimate -s

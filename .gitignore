@@ -1,0 +1,22 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+
+# Build artifacts
+*.egg-info/
+build/
+dist/
+
+# PyCharm project files
+.idea/
+.idea
+
+# VS Code (just in case)
+.vscode/
+
+dev_metrics/
+
+snapshots

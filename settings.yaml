@@ -1,0 +1,7 @@
+device_repo: yaml
+log_level: "off"
+template_paths: ["netimate.plugins.device_commands.templates"]
+
+plugin_configs:
+  yaml:
+    device_file: devices.yaml

@@ -1,0 +1,6 @@
+Value TOTAL_BYTES (\d+)
+Value USED_BYTES (\d+)
+Value FREE_BYTES (\d+)
+
+Start
+  ^Processor\s+\S+\s+${TOTAL_BYTES}\s+${USED_BYTES}\s+${FREE_BYTES} -> Record
