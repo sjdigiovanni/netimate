@@ -37,7 +37,7 @@ jobs:
     - name: Bump version (minor)
       id: bump
       run: |
-        python scripts/bump_version.py minor
+        python bump_version.py minor
 
     - name: Commit & tag version bump
       env:
