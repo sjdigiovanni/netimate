@@ -1,6 +1,6 @@
 [project]
 name = "netimate"
-version = "0.1.1"
+version = "0.1.0"
 description = "A lightweight, modular network automation framework."
 authors = [{ name = "Simon Di Giovanni", email = "s.digiovanni92@gmail.com" }]
 readme = "README.md"
@@ -22,7 +22,12 @@ dependencies = [
 test = [
     "pytest>=8.3.5",
     "pytest-asyncio",
-    "pytest-cov"
+    "pytest-cov",
+    "black",
+    "ruff",
+    "radon",
+    "import-linter",
+    "mypy"
 ]
 
 [build-system]
