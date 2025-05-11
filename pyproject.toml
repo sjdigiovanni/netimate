@@ -1,10 +1,32 @@
 [project]
 name = "netimate"
-version = "0.1.0"
-description = "A lightweight, modular network automation framework."
-authors = [{ name = "Simon Di Giovanni", email = "s.digiovanni92@gmail.com" }]
+version = "0.1.2"
+description = "A lightweight, async-first network automation toolkit with plugin support and a rich CLI/shell interface."
+authors = [
+  { name = "Simon Di Giovanni", email = "s.digiovanni92@gmail.com" }
+]
 readme = "README.md"
 requires-python = ">=3.9"
+license = { text = "MPL-2.0" }
+
+keywords = ["network automation", "async", "cli", "scrapli", "netmiko", "diff", "snapshot", "devops"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Telecommunications Industry",
+    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: System :: Networking",
+    "Topic :: Utilities",
+    "Typing :: Typed"
+]
+
 dependencies = [
     "netmiko>=4.5.0",
     "pyyaml>=6.0.2",
@@ -29,6 +51,12 @@ test = [
     "import-linter",
     "mypy"
 ]
+
+[project.urls]
+Homepage = "https://github.com/sjdigiovanni/netimate"
+Repository = "https://github.com/sjdigiovanni/netimate"
+Documentation = "https://github.com/sjdigiovanni/netimate#readme"
+Issues = "https://github.com/sjdigiovanni/netimate/issues"
 
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
@@ -58,7 +86,7 @@ exclude = [
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
-ignore = ["E501"]  # If you want Ruff to only warn for long lines, not fail (or remove to enforce)
+ignore = ["E501"]
 
 [tool.mypy]
 ignore_missing_imports = true
