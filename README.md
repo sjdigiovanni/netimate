@@ -3,7 +3,7 @@
 [![CI](https://github.com/sjdigiovanni/netimate/actions/workflows/ci.yml/badge.svg)](https://github.com/sjdigiovanni/netimate/actions/workflows/ci.yml)
 ![Roadmap Status](https://img.shields.io/badge/roadmap-active-blue)
 ![PyPI](https://img.shields.io/pypi/v/netimate)
-[![License: MPL 2.0](https://img.shields.io/github/license/sjdigiovanni/netimate?color=blue)](https://github.com/sjdigiovanni/netimate/blob/main/LICENSE)
+[![License: MPL 2.0](https://img.shields.io/github/license/sjdigiovanni/netimate?style=flat)](https://github.com/sjdigiovanni/netimate/blob/main/LICENSE)
 
 > **Netimate – a lightweight, async‑first network‑automation toolkit that feels as friendly as a REPL but scales like a platform.**
 
