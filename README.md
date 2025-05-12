@@ -87,6 +87,7 @@ device_repo: yaml               # plugin name
 log_level: info                 # off | info | debug
 template_paths: ["netimate.plugins.device_commands.templates"]  
 
+# Plugin settings example. Each plugin will get the settings listed below (provided the name matches)
 plugin_configs:
   yaml:
     device_file: devices.yaml   # path to inventory
