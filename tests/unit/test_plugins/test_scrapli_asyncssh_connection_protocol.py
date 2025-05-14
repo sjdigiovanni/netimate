@@ -9,6 +9,10 @@ from netimate.plugins.connection_protocols.scrapli.asyncssh import (
     ScrapliAsyncsshConnectionProtocol,
 )
 
+from scrapli.exceptions import ScrapliAuthenticationFailed, ScrapliTimeout
+
+from netimate.errors import AuthError, ConnectionTimeoutError, ConnectionProtocolError
+
 
 @pytest.mark.asyncio
 @patch("netimate.plugins.connection_protocols.scrapli.asyncssh.AsyncGenericDriver")
@@ -113,3 +117,50 @@ def test_scrapli_driver_selection_resolution(monkeypatch, platform, expected_cls
     )
 
     assert selected["used"] == expected_cls
+
+
+# ---------------------------------------------------------------------------
+# Negative tests: exception mapping
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+@patch("netimate.plugins.connection_protocols.scrapli.asyncssh.AsyncGenericDriver")
+async def test_scrapli_auth_failure_raises_auth_error(mock_driver, dummy_device):
+    """ScrapliAuthError is surfaced as AuthError."""
+    instance = AsyncMock()
+    instance.open.side_effect = ScrapliAuthenticationFailed("bad creds")
+    mock_driver.return_value = instance
+
+    proto = ScrapliAsyncsshConnectionProtocol(dummy_device)
+
+    with pytest.raises(AuthError):
+        await proto.connect()
+
+
+@pytest.mark.asyncio
+@patch("netimate.plugins.connection_protocols.scrapli.asyncssh.AsyncGenericDriver")
+async def test_scrapli_timeout_raises_timeout_error(mock_driver, dummy_device):
+    """ScrapliTimeout is surfaced as ConnectionTimeoutError."""
+    instance = AsyncMock()
+    instance.open.side_effect = ScrapliTimeout("timeout")
+    mock_driver.return_value = instance
+
+    proto = ScrapliAsyncsshConnectionProtocol(dummy_device)
+
+    with pytest.raises(ConnectionTimeoutError):
+        await proto.connect()
+
+
+@pytest.mark.asyncio
+@patch("netimate.plugins.connection_protocols.scrapli.asyncssh.AsyncGenericDriver")
+async def test_scrapli_unexpected_exception_is_wrapped(mock_driver, dummy_device):
+    """Any other exception is wrapped as ConnectionProtocolError."""
+    instance = AsyncMock()
+    instance.open.side_effect = RuntimeError("boom")
+    mock_driver.return_value = instance
+
+    proto = ScrapliAsyncsshConnectionProtocol(dummy_device)
+
+    with pytest.raises(ConnectionProtocolError):
+        await proto.connect()
