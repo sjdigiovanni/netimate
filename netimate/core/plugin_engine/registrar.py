@@ -31,7 +31,6 @@ class PluginRegistrar:
         """
         extra_pkgs = os.getenv("NETIMATE_EXTRA_PLUGIN_PACKAGES", "").split(":")
         pkgs = [base_path, *filter(None, extra_pkgs)]
-        print(pkgs)
         loader = PluginLoader(pkgs, interface)
         discovered = loader.discover()
 
