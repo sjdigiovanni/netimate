@@ -5,6 +5,16 @@ import pytest
 
 from netimate.plugins.connection_protocols.netmiko.telnet import NetmikoTelnetConnectionProtocol
 
+from netmiko import (
+    NetmikoAuthenticationException,
+    NetmikoTimeoutException,
+)
+from netimate.errors import (
+    AuthError,
+    ConnectionTimeoutError,
+    ConnectionProtocolError,
+)
+
 
 @patch("netimate.plugins.connection_protocols.netmiko.telnet.ConnectHandler")
 @pytest.mark.asyncio
@@ -48,3 +58,33 @@ async def test_telnet_disconnect(mock_connect, dummy_device):
     await protocol.disconnect()
 
     mock_conn.disconnect.assert_called_once()
+
+
+@patch("netimate.plugins.connection_protocols.netmiko.telnet.ConnectHandler")
+@pytest.mark.asyncio
+async def test_telnet_auth_failure_raises_auth_error(mock_connect, dummy_device):
+    mock_connect.side_effect = NetmikoAuthenticationException("bad creds")
+    protocol = NetmikoTelnetConnectionProtocol(dummy_device)
+
+    with pytest.raises(AuthError):
+        await protocol.connect()
+
+
+@patch("netimate.plugins.connection_protocols.netmiko.telnet.ConnectHandler")
+@pytest.mark.asyncio
+async def test_telnet_timeout_raises_timeout_error(mock_connect, dummy_device):
+    mock_connect.side_effect = NetmikoTimeoutException("timeout")
+    protocol = NetmikoTelnetConnectionProtocol(dummy_device)
+
+    with pytest.raises(ConnectionTimeoutError):
+        await protocol.connect()
+
+
+@patch("netimate.plugins.connection_protocols.netmiko.telnet.ConnectHandler")
+@pytest.mark.asyncio
+async def test_telnet_unexpected_exception_is_wrapped(mock_connect, dummy_device):
+    mock_connect.side_effect = RuntimeError("boom")
+    protocol = NetmikoTelnetConnectionProtocol(dummy_device)
+
+    with pytest.raises(ConnectionProtocolError):
+        await protocol.connect()
