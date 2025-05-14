@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Configuration‑related errors."""
 
 from __future__ import annotations

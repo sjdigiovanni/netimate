@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Errors related to executing device commands."""
 
 from __future__ import annotations

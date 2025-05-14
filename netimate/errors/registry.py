@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Plugin discovery and loading errors."""
 
 from __future__ import annotations
