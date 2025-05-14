@@ -2,6 +2,7 @@
 from enum import Enum
 from typing import Callable, Dict, Type
 
+from netimate.errors import RegistryError
 from netimate.interfaces.core.registry import PluginRegistryInterface
 from netimate.interfaces.plugin.connection_protocol import ConnectionProtocol
 from netimate.interfaces.plugin.device_command import DeviceCommand
@@ -30,9 +31,9 @@ class PluginRegistry(PluginRegistryInterface):
     """
 
     def __init__(self):
-        self.device_commands: Dict[str, Type[DeviceCommand]] = {}
-        self.protocols: Dict[str, Type[ConnectionProtocol]] = {}
-        self.repositories: Dict[str, Type[DeviceRepository]] = {}
+        self._device_commands: Dict[str, Type[DeviceCommand]] = {}
+        self._protocols: Dict[str, Type[ConnectionProtocol]] = {}
+        self._repositories: Dict[str, Type[DeviceRepository]] = {}
 
         self._handlers: Dict[PluginKind, Callable] = {
             PluginKind.DEVICE_COMMAND: self.register_device_command,
@@ -48,36 +49,46 @@ class PluginRegistry(PluginRegistryInterface):
 
     def register_device_command(self, name: str, command_cls: Type[DeviceCommand]):
         """Register a DeviceCommand implementation under *name*."""
-        self.device_commands[name] = command_cls
+        self._device_commands[name] = command_cls
 
     def register_protocol(self, name: str, protocol_cls: Type[ConnectionProtocol]):
         """Register a ConnectionProtocol implementation under *name*."""
-        self.protocols[name] = protocol_cls
+        self._protocols[name] = protocol_cls
 
     def register_device_repository(self, name: str, repo_cls: Type[DeviceRepository]):
         """Register a DeviceRepository implementation under *name*."""
-        self.repositories[name] = repo_cls
+        self._repositories[name] = repo_cls
 
     def get_device_command(self, name: str) -> Type[DeviceCommand]:
         """Return the DeviceCommand class registered under *name*."""
-        return self.device_commands[name]
+        try:
+            return self._device_commands[name]
+        except KeyError as e:
+            raise RegistryError(f"No device command plugin named '{name}' is registered.") from e
 
-    def get_protocol(self, name: str) -> Type[ConnectionProtocol]:
-        """Return the ConnectionProtocol class registered under *name*."""
-        return self.protocols[name]
+    def get_protocol(self, name: str) -> type:
+        try:
+            return self._protocols[name]
+        except KeyError as e:
+            raise RegistryError(
+                f"No connection protocol plugin named '{name}' is registered."
+            ) from e
 
     def get_device_repository(self, name: str) -> Type[DeviceRepository]:
         """Return the DeviceRepository class registered under *name*."""
-        return self.repositories[name]
+        try:
+            return self._repositories[name]
+        except KeyError as e:
+            raise RegistryError(f"No repository plugin named '{name}' is registered.") from e
 
     def all_device_commands(self):
         """Return all registered device command names."""
-        return self.device_commands.keys()
+        return self._device_commands.keys()
 
     def all_device_repositories(self):
         """Return all registered device repository names."""
-        return self.repositories.keys()
+        return self._repositories.keys()
 
     def all_protocols(self):
         """Return all registered protocol names."""
-        return self.protocols.keys()
+        return self._protocols.keys()

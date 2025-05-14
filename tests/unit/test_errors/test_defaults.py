@@ -8,7 +8,7 @@ from netimate import errors
     [
         (errors.NetimateError, "An unknown Netimate error occurred."),
         (errors.ConfigError, "Configuration error"),
-        (errors.PluginError, "Plugin system error"),
+        (errors.RegistryError, "Plugin system error"),
         (errors.ConnectionProtocolError, "Connection to device failed"),
         (errors.AuthError, "Authentication failed"),
         (errors.ConnectionTimeoutError, "Connection timed out"),
