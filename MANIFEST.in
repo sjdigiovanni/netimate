@@ -1,0 +1,2 @@
+recursive-include netimate/plugins/device_commands/templates *.textfsm
+recursive-include netimate/plugins/device_commands/templates *.ttp
