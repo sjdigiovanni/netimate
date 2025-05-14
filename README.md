@@ -361,7 +361,9 @@ Pull requests are welcome! Discussions and RFCs live in the *Discussions* tab.
 
 ## Roadmap
 
-* Multi‑protocol auto‑discovery & topology graph export  
+* Robust error handling
+* Bring CLI and Shell to parity
+* Multi‑protocol auto‑discovery & topology graph export
 * NETCONF / RESTCONF support  
 * Web UI (FastAPI + WebSockets)
 
