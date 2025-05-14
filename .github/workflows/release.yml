@@ -37,10 +37,20 @@ jobs:
         mypy . --exclude '^(build|dist|\.venv)/'
         pytest
 
-    - name: Bump version (minor)
+    - name: Detect bump level from PR title
       id: bump
       run: |
-        python bump_version.py minor
+        TITLE="${{ github.event.pull_request.title }}"
+        bump_type="patch"   # default
+        shopt -s nocasematch
+        [[ "$TITLE" =~ \[major\] ]] && bump_type="major"
+        [[ "$TITLE" =~ \[minor\] ]] && bump_type="minor"
+        [[ "$TITLE" =~ \[patch\] ]] && bump_type="patch"
+        echo "bump_type=$bump_type" >> $GITHUB_OUTPUT
+
+    - name: Bump version
+      run: |
+        python bump_version.py ${{ steps.bump.outputs.bump_type }}
 
     - name: Commit & tag version bump
       env:
