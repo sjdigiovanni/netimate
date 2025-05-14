@@ -38,8 +38,9 @@ def test_register_unknown_kind_raises():
 def test_missing_plugin_raises_registry_error():
     registry = PluginRegistry()
 
-    with pytest.raises(RegistryError, match=f"No device command plugin named 'dummy' is "
-                                            f"registered."):
+    with pytest.raises(
+        RegistryError, match="No device command plugin named 'dummy' is registered."
+    ):
         registry.get_device_command("dummy")
 
     with pytest.raises(RegistryError, match="No connection protocol plugin named 'dummy'"):

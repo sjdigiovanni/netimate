@@ -64,9 +64,7 @@ class PluginRegistry(PluginRegistryInterface):
         try:
             return self._device_commands[name]
         except KeyError as e:
-            raise RegistryError(
-                f"No device command plugin named '{name}' is registered."
-            ) from e
+            raise RegistryError(f"No device command plugin named '{name}' is registered.") from e
 
     def get_protocol(self, name: str) -> type:
         try:

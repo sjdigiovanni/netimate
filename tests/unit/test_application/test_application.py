@@ -8,6 +8,7 @@ import pytest
 from netimate.application.application import Application
 from netimate.composition import composition_root
 from netimate.core.plugin_engine.plugin_registry import PluginRegistry
+from netimate.errors import RegistryError
 
 
 def test_list_usage(app_with_mock_command_repo_registry):
@@ -121,7 +122,7 @@ async def test_bad_command():
         template_provider=MagicMock(),
     )
 
-    with pytest.raises(KeyError):
+    with pytest.raises(RegistryError):
         await app.run_device_command(device_names=["r1"], command_name="no-such-cmd")
 
 
