@@ -1,4 +1,5 @@
 """CLI‑specific usage errors."""
+
 from __future__ import annotations
 
 from .base import NetimateError

@@ -1,4 +1,5 @@
 """Errors related to executing device commands."""
+
 from __future__ import annotations
 
 from .base import NetimateError

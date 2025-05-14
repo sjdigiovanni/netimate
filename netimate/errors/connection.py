@@ -1,4 +1,5 @@
 """Connection‑level errors (SSH, Telnet, NETCONF, etc.)."""
+
 from __future__ import annotations
 
 from .base import NetimateError

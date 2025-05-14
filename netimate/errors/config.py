@@ -1,4 +1,5 @@
 """Configuration‑related errors."""
+
 from __future__ import annotations
 
 from .base import NetimateError
