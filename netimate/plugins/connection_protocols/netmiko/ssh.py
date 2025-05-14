@@ -10,18 +10,17 @@ supported by Netmiko but not yet by Scrapli.
 import asyncio
 import logging
 
-from netmiko import ConnectHandler
 from netmiko import (
+    ConnectHandler,
     NetmikoAuthenticationException,
     NetmikoTimeoutException,
 )
 
 from netimate.errors import (
     AuthError,
-    ConnectionTimeoutError,
     ConnectionProtocolError,
+    ConnectionTimeoutError,
 )
-
 from netimate.interfaces.plugin.connection_protocol import ConnectionProtocol
 from netimate.models.device import Device
 

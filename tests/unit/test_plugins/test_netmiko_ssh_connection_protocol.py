@@ -2,17 +2,16 @@
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from netmiko import (
     NetmikoAuthenticationException,
     NetmikoTimeoutException,
 )
+
 from netimate.errors import (
     AuthError,
-    ConnectionTimeoutError,
     ConnectionProtocolError,
+    ConnectionTimeoutError,
 )
-
 from netimate.models.device import Device
 from netimate.plugins.connection_protocols.netmiko.ssh import NetmikoSSHConnectionProtocol
 

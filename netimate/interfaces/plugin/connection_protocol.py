@@ -7,14 +7,12 @@ Abstract base plugin class for any interactive connection mechanism
 implementations are loaded at runtime by the PluginRegistry and used by
 the Runner to execute device commands.
 """
+import inspect
 from abc import abstractmethod
+from functools import wraps
 from typing import Dict
 
-import inspect
-from functools import wraps
-
-from netimate.errors import NetimateError, ConnectionProtocolError
-
+from netimate.errors import ConnectionProtocolError, NetimateError
 from netimate.interfaces.plugin.plugin import Plugin
 from netimate.models.device import Device
 
@@ -27,6 +25,7 @@ def _wrap_netimate_errors(fn):
     above ConnectionProtocol never see third‑party tracebacks.
     """
     if inspect.iscoroutinefunction(fn):
+
         @wraps(fn)
         async def async_wrapper(*args, **kwargs):
             try:
@@ -35,8 +34,10 @@ def _wrap_netimate_errors(fn):
                 raise
             except Exception as err:  # pylint: disable=broad-except
                 raise ConnectionProtocolError("Unhandled protocol error") from err
+
         return async_wrapper
     else:
+
         @wraps(fn)
         def sync_wrapper(*args, **kwargs):
             try:
@@ -45,6 +46,7 @@ def _wrap_netimate_errors(fn):
                 raise
             except Exception as err:  # pylint: disable=broad-except
                 raise ConnectionProtocolError("Unhandled protocol error") from err
+
         return sync_wrapper
 
 

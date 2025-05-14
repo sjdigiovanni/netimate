@@ -2,18 +2,17 @@
 from unittest.mock import MagicMock, patch
 
 import pytest
-
-from netimate.plugins.connection_protocols.netmiko.telnet import NetmikoTelnetConnectionProtocol
-
 from netmiko import (
     NetmikoAuthenticationException,
     NetmikoTimeoutException,
 )
+
 from netimate.errors import (
     AuthError,
-    ConnectionTimeoutError,
     ConnectionProtocolError,
+    ConnectionTimeoutError,
 )
+from netimate.plugins.connection_protocols.netmiko.telnet import NetmikoTelnetConnectionProtocol
 
 
 @patch("netimate.plugins.connection_protocols.netmiko.telnet.ConnectHandler")

@@ -9,18 +9,17 @@ legacy devices that only expose a Telnet management channel.
 import asyncio
 import logging
 
-from netmiko import ConnectHandler
 from netmiko import (
+    ConnectHandler,
     NetmikoAuthenticationException,
     NetmikoTimeoutException,
 )
 
 from netimate.errors import (
     AuthError,
-    ConnectionTimeoutError,
     ConnectionProtocolError,
+    ConnectionTimeoutError,
 )
-
 from netimate.interfaces.plugin.connection_protocol import ConnectionProtocol
 from netimate.models.device import Device
 

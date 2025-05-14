@@ -29,10 +29,9 @@ from scrapli.exceptions import (
 
 from netimate.errors import (
     AuthError,
-    ConnectionTimeoutError,
     ConnectionProtocolError,
+    ConnectionTimeoutError,
 )
-
 from netimate.interfaces.plugin.connection_protocol import ConnectionProtocol
 from netimate.models.device import Device
 

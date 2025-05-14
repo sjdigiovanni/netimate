@@ -3,15 +3,13 @@ from os.path import expanduser
 from unittest.mock import AsyncMock, patch
 
 import pytest
+from scrapli.exceptions import ScrapliAuthenticationFailed, ScrapliTimeout
 
+from netimate.errors import AuthError, ConnectionProtocolError, ConnectionTimeoutError
 from netimate.plugins.connection_protocols.scrapli.asyncssh import (
     PLATFORM_DRIVERS,
     ScrapliAsyncsshConnectionProtocol,
 )
-
-from scrapli.exceptions import ScrapliAuthenticationFailed, ScrapliTimeout
-
-from netimate.errors import AuthError, ConnectionTimeoutError, ConnectionProtocolError
 
 
 @pytest.mark.asyncio
