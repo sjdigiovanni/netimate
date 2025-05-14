@@ -16,6 +16,7 @@ from netimate import errors
         (errors.RunnerError, "Runner failed to complete task"),
         (errors.CliUsageError, "Invalid CLI usage"),
         (errors.ShellRuntimeError, "Shell command failed"),
+        (errors.ApplicationError, "Application-level failure"),
     ],
 )
 def test_default_message(exc_cls, expected):

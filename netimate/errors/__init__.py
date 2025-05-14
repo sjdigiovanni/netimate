@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .application import ApplicationError
 from .base import NetimateError
 from .cli import CliUsageError
 from .command import CommandError
@@ -22,4 +23,5 @@ __all__ = [
     "PluginError",
     "RunnerError",
     "ShellRuntimeError",
+    "ApplicationError",
 ]
