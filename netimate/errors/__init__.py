@@ -8,7 +8,7 @@ from .cli import CliUsageError
 from .command import CommandError
 from .config import ConfigError
 from .connection import AuthError, ConnectionProtocolError, ConnectionTimeoutError
-from .plugin import PluginError
+from .registry import RegistryError
 from .runner import RunnerError
 from .shell import ShellRuntimeError
 
@@ -20,7 +20,7 @@ __all__ = [
     "ConnectionProtocolError",
     "AuthError",
     "ConnectionTimeoutError",
-    "PluginError",
+    "RegistryError",
     "RunnerError",
     "ShellRuntimeError",
     "ApplicationError",
