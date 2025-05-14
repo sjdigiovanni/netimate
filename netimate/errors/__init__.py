@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Top‑level re‑exports for Netimate's custom exception hierarchy."""
 
 from __future__ import annotations

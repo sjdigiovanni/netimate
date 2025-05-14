@@ -20,6 +20,18 @@ from scrapli.driver.core import (
 )
 from scrapli.driver.generic import AsyncGenericDriver
 
+# Additional imports for error handling
+from scrapli.exceptions import (
+    ScrapliAuthenticationFailed,
+    ScrapliConnectionError,
+    ScrapliTimeout,
+)
+
+from netimate.errors import (
+    AuthError,
+    ConnectionProtocolError,
+    ConnectionTimeoutError,
+)
 from netimate.interfaces.plugin.connection_protocol import ConnectionProtocol
 from netimate.models.device import Device
 
@@ -83,13 +95,34 @@ class ScrapliAsyncsshConnectionProtocol(ConnectionProtocol):
             ssh_known_hosts_file=known_hosts_file,
         )
 
-        await self.client.open()
+        try:
+            await self.client.open()
+        except ScrapliAuthenticationFailed as err:
+            raise AuthError() from err
+        except ScrapliTimeout as err:
+            raise ConnectionTimeoutError() from err
+        except ScrapliConnectionError as err:
+            raise ConnectionProtocolError("Connection failed") from err
+        except Exception as err:  # pylint: disable=broad-except
+            raise ConnectionProtocolError("Unexpected connection error") from err
 
     async def send_command(self, command: str) -> str:
         if not self.client:
-            raise ValueError("No connection established! Call .connect()")
-        response = await self.client.send_command(command)
-        return response.result
+            raise ConnectionProtocolError("No connection established; call .connect() first")
+
+        try:
+            response = await self.client.send_command(command)
+            return response.result
+        except ScrapliTimeout as err:
+            raise ConnectionTimeoutError() from err
+        except Exception as err:  # pylint: disable=broad-except
+            raise ConnectionProtocolError("Failed to execute command") from err
 
     async def disconnect(self):
-        await self.client.close()
+        if not self.client:
+            return
+
+        try:
+            await self.client.close()
+        except Exception as err:  # pylint: disable=broad-except
+            raise ConnectionProtocolError("Failed to disconnect") from err

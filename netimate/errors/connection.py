@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Connection‑level errors (SSH, Telnet, NETCONF, etc.)."""
 
 from __future__ import annotations

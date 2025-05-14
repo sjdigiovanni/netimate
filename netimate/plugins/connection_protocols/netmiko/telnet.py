@@ -9,8 +9,17 @@ legacy devices that only expose a Telnet management channel.
 import asyncio
 import logging
 
-from netmiko import ConnectHandler
+from netmiko import (
+    ConnectHandler,
+    NetmikoAuthenticationException,
+    NetmikoTimeoutException,
+)
 
+from netimate.errors import (
+    AuthError,
+    ConnectionProtocolError,
+    ConnectionTimeoutError,
+)
 from netimate.interfaces.plugin.connection_protocol import ConnectionProtocol
 from netimate.models.device import Device
 
@@ -40,27 +49,43 @@ class NetmikoTelnetConnectionProtocol(ConnectionProtocol):
         """Open a Netmiko Telnet session asynchronously."""
         loop = asyncio.get_running_loop()
         logger.info(f"Connecting to {self.device.host} via Telnet")
-        self.connection = await loop.run_in_executor(
-            None,
-            lambda: ConnectHandler(
-                device_type="cisco_ios_telnet",
-                host=self.device.host,
-                username=self.device.username,
-                password=self.device.password,
-            ),
-        )
+        try:
+            self.connection = await loop.run_in_executor(
+                None,
+                lambda: ConnectHandler(
+                    device_type="cisco_ios_telnet",
+                    host=self.device.host,
+                    username=self.device.username,
+                    password=self.device.password,
+                ),
+            )
+        except NetmikoAuthenticationException as err:
+            raise AuthError() from err
+        except NetmikoTimeoutException as err:
+            raise ConnectionTimeoutError() from err
+        except Exception as err:  # pylint: disable=broad-except
+            raise ConnectionProtocolError("Unexpected connection error") from err
 
     async def send_command(self, command: str) -> str:
         """Send *command* over the Telnet session."""
         loop = asyncio.get_running_loop()
-        logger.info(f"Sending command over Telnet: {command}")
         if self.connection is None:
-            raise RuntimeError("Connection not established")
+            raise ConnectionProtocolError("Connection not established")
 
-        return await loop.run_in_executor(None, self.connection.send_command, command)
+        try:
+            logger.info(f"Sending command over Telnet: {command}")
+            return await loop.run_in_executor(None, self.connection.send_command, command)
+        except Exception as err:  # pylint: disable=broad-except
+            raise ConnectionProtocolError("Failed to execute command") from err
 
     async def disconnect(self):
         """Close the Telnet session."""
+        if self.connection is None:
+            return
+
         loop = asyncio.get_running_loop()
-        logger.info(f"Disconnecting from {self.device.host}")
-        await loop.run_in_executor(None, self.connection.disconnect)
+        try:
+            logger.info(f"Disconnecting from {self.device.host}")
+            await loop.run_in_executor(None, self.connection.disconnect)
+        except Exception as err:  # pylint: disable=broad-except
+            raise ConnectionProtocolError("Failed to disconnect") from err

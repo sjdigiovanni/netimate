@@ -1,4 +1,4 @@
-# netimate/errors/application.py
+# SPDX-License-Identifier: MPL-2.0
 from .base import NetimateError
 
 

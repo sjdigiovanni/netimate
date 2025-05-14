@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """High‑level runner / orchestration errors."""
 
 from __future__ import annotations
