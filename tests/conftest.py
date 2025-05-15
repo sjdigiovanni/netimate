@@ -32,6 +32,9 @@ def temp_device_and_settings_files(tmp_path):
         for i in range(1, 6)
     ]
 
+    # Use the last device as a failing test
+    devices[-1].protocol = "failing-async"
+
     temp_devices_path = tmp_path / "devices.yaml"
     temp_devices_path.write_text(yaml.safe_dump({"devices": [d.__dict__ for d in devices]}))
 
