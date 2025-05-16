@@ -26,4 +26,4 @@ def test_cli_happy_path(temp_device_and_settings_files):
         env=env,
     )
 
-    assert "---\n[r1]\n{'raw': 'echo test'}\n" in result.stdout
+    assert "---\n[r1]\necho test\n" in result.stdout

@@ -7,11 +7,7 @@ from netimate.application.command_executor_service import CommandExecutorService
 
 
 class SnapshotService:
-    def __init__(
-        self,
-        executor: CommandExecutorService,
-        snapshot_dir: Path = Path("snapshots")
-    ):
+    def __init__(self, executor: CommandExecutorService, snapshot_dir: Path = Path("snapshots")):
         self._executor = executor
         self._snapshot_dir = snapshot_dir
 

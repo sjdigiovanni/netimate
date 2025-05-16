@@ -2,11 +2,6 @@
 from abc import abstractmethod
 from typing import Dict, List, Protocol
 
-from netimate.interfaces.infrastructure.settings import SettingsInterface
-from netimate.interfaces.plugin.connection_protocol import ConnectionProtocol
-from netimate.interfaces.plugin.device_repository import DeviceRepository
-from netimate.models.device import Device
-
 
 class ApplicationInterface(Protocol):  # pragma: no cover
     """

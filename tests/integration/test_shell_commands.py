@@ -119,7 +119,7 @@ def test_shell_snapshot_command(temp_device_and_settings_files):
 
     fixed_time = datetime.datetime(2024, 1, 1, 12, 0, 0)
     with (
-        mock.patch("netimate.application.application.datetime") as mock_datetime,
+        mock.patch("netimate.application.snapshot_service.datetime") as mock_datetime,
         mock.patch("netimate.application.application.Path.write_text"),
     ):
         mock_datetime.datetime.now.return_value = fixed_time
@@ -254,7 +254,7 @@ def test_shell_diff_snapshots_command(temp_device_and_settings_files):
 
     fixed_time = datetime.datetime(2024, 1, 1, 12, 0, 0)
 
-    with mock.patch("netimate.application.application.datetime") as mock_datetime:
+    with mock.patch("netimate.application.snapshot_service.datetime") as mock_datetime:
         mock_datetime.datetime.now.return_value = fixed_time
         mock_datetime.datetime.strftime = datetime.datetime.strftime
 

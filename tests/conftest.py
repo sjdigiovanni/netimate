@@ -97,19 +97,6 @@ def app_with_mock_command_repo_registry(temp_device_and_settings_files):
 
 
 @pytest.fixture
-def fake_device():
-    return Device(name="r1", site="siteA", os="ios", protocol="ssh")
-
-
-@pytest.fixture
-def fake_devices():
-    return [
-        Device(name="r1", site="siteA", os="ios", protocol="ssh"),
-        Device(name="r2", site="siteA", os="ios", protocol="ssh"),
-    ]
-
-
-@pytest.fixture
 def mock_registry():
     registry = MagicMock(spec=PluginRegistryInterface)
     return registry
@@ -131,4 +118,3 @@ def mock_settings():
 @pytest.fixture
 def mock_template_provider():
     return MagicMock(spec=TemplateProviderInterface)
-

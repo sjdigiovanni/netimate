@@ -14,7 +14,6 @@ call the same `Application` façade.
 """
 
 import logging
-from datetime import datetime
 from difflib import unified_diff
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -27,9 +26,7 @@ from netimate.interfaces.core.registry import PluginRegistryInterface
 from netimate.interfaces.core.runner import RunnerInterface
 from netimate.interfaces.infrastructure.settings import SettingsInterface
 from netimate.interfaces.infrastructure.template_provider import TemplateProviderInterface
-from netimate.interfaces.plugin.connection_protocol import ConnectionProtocol
 from netimate.interfaces.plugin.device_repository import DeviceRepository
-from netimate.models.device import Device
 
 logger = logging.getLogger(__name__)
 
@@ -57,8 +54,12 @@ class Application(ApplicationInterface):
         self._command_executor_service = command_executor_service or CommandExecutorService(
             registry, settings, template_provider, runner
         )
-        self._snapshot_service = snapshot_service or SnapshotService(
-            self._command_executor_service
+        self._snapshot_service = snapshot_service or SnapshotService(self._command_executor_service)
+
+    def get_device_command(self, name: str):
+        """Return a device command instance for the given command name."""
+        return self._registry.get_device_command(name)(
+            self._template_provider, self._settings.plugin_configs.get(name)
         )
 
     def get_device_repository(self) -> DeviceRepository:

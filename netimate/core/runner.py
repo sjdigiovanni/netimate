@@ -3,7 +3,6 @@ import asyncio
 import logging
 from typing import Any, Dict, List, Tuple
 
-from netimate.core.plugin_engine.plugin_registry import PluginRegistry
 from netimate.errors import NetimateError, RunnerError
 from netimate.interfaces.core.runner import RunnerInterface
 from netimate.interfaces.plugin.connection_protocol import ConnectionProtocol
@@ -22,8 +21,9 @@ class Runner(RunnerInterface):
     def __init__(self, plugin_configs: Dict[str, Any]):
         self.plugin_configs = plugin_configs
 
-    async def run(self, device_protocols: List[Tuple[Device, ConnectionProtocol]], command: DeviceCommand) -> (
-            List)[dict[str, Any]]:
+    async def run(
+        self, device_protocols: List[Tuple[Device, ConnectionProtocol]], command: DeviceCommand
+    ) -> (List)[dict[str, Any]]:
         """
         Executes the command on all devices concurrently using their associated protocol instances.
 
@@ -31,13 +31,12 @@ class Runner(RunnerInterface):
             A list of results (or errors) per device.
         """
         tasks = [
-            self._run_on_device(device, protocol, command)
-            for device, protocol in device_protocols
+            self._run_on_device(device, protocol, command) for device, protocol in device_protocols
         ]
         return await asyncio.gather(*tasks)
 
     async def _run_on_device(
-            self, device: Device, protocol: ConnectionProtocol, command: DeviceCommand
+        self, device: Device, protocol: ConnectionProtocol, command: DeviceCommand
     ) -> Dict[str, Any]:
         """
         Execute *command* on *device* using the provided *protocol* instance and return a structured per‑device result.

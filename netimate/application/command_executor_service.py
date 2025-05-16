@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: MPL-2.0
 from typing import Dict, List, Tuple
+
 from netimate.interfaces.core.registry import PluginRegistryInterface
+from netimate.interfaces.core.runner import RunnerInterface
 from netimate.interfaces.infrastructure.settings import SettingsInterface
 from netimate.interfaces.infrastructure.template_provider import TemplateProviderInterface
-from netimate.interfaces.core.runner import RunnerInterface
 from netimate.interfaces.plugin.connection_protocol import ConnectionProtocol
 from netimate.interfaces.plugin.device_repository import DeviceRepository
 from netimate.models.device import Device
@@ -44,7 +45,7 @@ class CommandExecutorService:
         for device in selected_devices:
             protocol_name = device.protocol
             protocol_cls = self._registry.get_protocol(protocol_name)
-            protocol_config = self._settings.plugin_configs.get(protocol_name, {})
+            protocol_config: str | Dict = self._settings.plugin_configs.get(protocol_name, {})
             protocol = protocol_cls(protocol_config)
             device_protocol_pairs.append((device, protocol))
 

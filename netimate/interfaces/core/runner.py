@@ -27,5 +27,6 @@ class RunnerInterface(Protocol):
        view (CLI/Shell) can render.
     """
 
-    async def run(self, device_protocols: List[Tuple[Device, ConnectionProtocol]], command: DeviceCommand) -> List[
-        dict[str, Any]]: ...
+    async def run(
+        self, device_protocols: List[Tuple[Device, ConnectionProtocol]], command: DeviceCommand
+    ) -> List[dict[str, Any]]: ...
