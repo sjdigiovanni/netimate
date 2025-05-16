@@ -8,8 +8,9 @@ engine responsible for applying a :class:`DeviceCommand` across one or many
 results.
 """
 
-from typing import Any, List, Protocol
+from typing import Any, List, Protocol, Tuple
 
+from netimate.interfaces.plugin.connection_protocol import ConnectionProtocol
 from netimate.interfaces.plugin.device_command import DeviceCommand
 from netimate.models.device import Device
 
@@ -26,4 +27,5 @@ class RunnerInterface(Protocol):
        view (CLI/Shell) can render.
     """
 
-    async def run(self, devices: List[Device], command: DeviceCommand) -> List[dict[str, Any]]: ...
+    async def run(self, device_protocols: List[Tuple[Device, ConnectionProtocol]], command: DeviceCommand) -> List[
+        dict[str, Any]]: ...
