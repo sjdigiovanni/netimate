@@ -17,24 +17,6 @@ class ApplicationInterface(Protocol):  # pragma: no cover
     """
 
     @abstractmethod
-    def get_log_level(self) -> str: ...
-
-    @abstractmethod
-    def get_settings(self) -> SettingsInterface:
-        """Return the application settings object."""
-        ...
-
-    @abstractmethod
-    def get_device_repository(self) -> DeviceRepository:
-        """Return the currently active device repository."""
-        ...
-
-    @abstractmethod
-    def get_protocol(self, name: str, device: Device) -> ConnectionProtocol:
-        """Return the protocol implementation by name."""
-        ...
-
-    @abstractmethod
     def list(self, key: str, site: str | None = None) -> List[str]:
         """
         Return a formatted string representation for the requested list.

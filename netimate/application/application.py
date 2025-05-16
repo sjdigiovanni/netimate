@@ -61,33 +61,10 @@ class Application(ApplicationInterface):
             self._command_executor_service
         )
 
-    def get_template_provider(self) -> TemplateProviderInterface:
-        """Return the singleton TemplateProvider injected at startup."""
-        return self._template_provider
-
-    def get_log_level(self) -> str:
-        """Return the current log level from settings."""
-        return self._settings.log_level
-
-    def get_settings(self) -> SettingsInterface:
-        """Return the application settings instance."""
-        return self._settings
-
     def get_device_repository(self) -> DeviceRepository:
         """Return an instance of the configured device repository plugin."""
         repo_cls = self._registry.get_device_repository(self._settings.device_repo)
         return repo_cls(self._settings.plugin_configs.get(self._settings.device_repo))
-
-    def get_protocol(self, name: str, device: Device) -> ConnectionProtocol:
-        """Return a protocol instance for the given name and device."""
-        protocol_cls = self._registry.get_protocol(name)
-        return protocol_cls(device, self._settings.plugin_configs.get(name))
-
-    def get_device_command(self, name: str):
-        """Return a device command instance for the given command name."""
-        return self._registry.get_device_command(name)(
-            self._template_provider, self._settings.plugin_configs.get(name)
-        )
 
     def expand_device_names(self, names: List[str]) -> List[str]:
         """
