@@ -1,6 +1,6 @@
 [project]
 name = "netimate"
-version = "0.4.5"
+version = "0.5.0"
 description = "A lightweight, async-first network automation toolkit with plugin support and a rich CLI/shell interface."
 readme = "README.md"
 requires-python = ">=3.9"
