@@ -43,9 +43,10 @@ async def test_runner_handles_device_error(temp_device_and_settings_files):
     mock_command.return_value = mock_command_instance
     mock_command.plugin_name = "echo-test"
 
-    runner = Runner(registry=registry, plugin_configs={})
+    runner = Runner(plugin_configs={})
 
-    results = await runner.run(device, mock_command)
+    protocol = FailingAsyncProtocol(device[0], {})
+    results = await runner.run([(device[0], protocol)], mock_command)
     result = results[0]
 
     assert result["success"] is False

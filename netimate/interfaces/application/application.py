@@ -2,11 +2,6 @@
 from abc import abstractmethod
 from typing import Dict, List, Protocol
 
-from netimate.interfaces.infrastructure.settings import SettingsInterface
-from netimate.interfaces.plugin.connection_protocol import ConnectionProtocol
-from netimate.interfaces.plugin.device_repository import DeviceRepository
-from netimate.models.device import Device
-
 
 class ApplicationInterface(Protocol):  # pragma: no cover
     """
@@ -15,24 +10,6 @@ class ApplicationInterface(Protocol):  # pragma: no cover
     Application implementations are responsible for coordinating execution
     across plugins and repositories based on user input and application state.
     """
-
-    @abstractmethod
-    def get_log_level(self) -> str: ...
-
-    @abstractmethod
-    def get_settings(self) -> SettingsInterface:
-        """Return the application settings object."""
-        ...
-
-    @abstractmethod
-    def get_device_repository(self) -> DeviceRepository:
-        """Return the currently active device repository."""
-        ...
-
-    @abstractmethod
-    def get_protocol(self, name: str, device: Device) -> ConnectionProtocol:
-        """Return the protocol implementation by name."""
-        ...
 
     @abstractmethod
     def list(self, key: str, site: str | None = None) -> List[str]:
