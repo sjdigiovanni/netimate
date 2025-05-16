@@ -19,8 +19,7 @@ class Runner(RunnerInterface):
     Selects appropriate runner per device using RunnerSelector.
     """
 
-    def __init__(self, registry: PluginRegistry, plugin_configs: Dict[str, Any]):
-        self.registry = registry
+    def __init__(self, plugin_configs: Dict[str, Any]):
         self.plugin_configs = plugin_configs
 
     async def run(self, device_protocols: List[Tuple[Device, ConnectionProtocol]], command: DeviceCommand) -> (

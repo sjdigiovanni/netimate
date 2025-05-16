@@ -65,7 +65,7 @@ def composition_root() -> ApplicationInterface:
 
     # 3. Create dependencies
     template_provider = FileSystemTemplateProvider(settings.template_paths)
-    runner = Runner(registry, settings.plugin_configs)
+    runner = Runner(settings.plugin_configs)
 
     # 4. Initialise application
     app = Application(registry, settings, runner, template_provider)

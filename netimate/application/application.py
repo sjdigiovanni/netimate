@@ -19,6 +19,8 @@ from difflib import unified_diff
 from pathlib import Path
 from typing import Dict, List, Optional
 
+from netimate.application.command_executor_service import CommandExecutorService
+from netimate.application.snapshot_service import SnapshotService
 from netimate.infrastructure.logging import configure_logging
 from netimate.interfaces.application.application import ApplicationInterface
 from netimate.interfaces.core.registry import PluginRegistryInterface
@@ -45,11 +47,19 @@ class Application(ApplicationInterface):
         settings: SettingsInterface,
         runner: RunnerInterface,
         template_provider: TemplateProviderInterface,
+        command_executor_service: Optional[CommandExecutorService] = None,
+        snapshot_service: Optional[SnapshotService] = None,
     ) -> None:
         self._registry = registry
         self._settings = settings
         self._runner = runner
         self._template_provider = template_provider
+        self._command_executor_service = command_executor_service or CommandExecutorService(
+            registry, settings, template_provider, runner
+        )
+        self._snapshot_service = snapshot_service or SnapshotService(
+            self._command_executor_service
+        )
 
     def get_template_provider(self) -> TemplateProviderInterface:
         """Return the singleton TemplateProvider injected at startup."""
@@ -175,51 +185,16 @@ class Application(ApplicationInterface):
         Returns:
             List of parsed results or exceptions, one per device.
         """
-        device_names = self.expand_device_names(device_names)
-        logger.info("netimate execution started")
-
-        # 1. Repository
-        repository_cls = self._registry.get_device_repository(self._settings.device_repo)
-        repository = repository_cls(self._settings.plugin_configs.get(self._settings.device_repo))
-        devices = repository.list_devices()
-
-        # 2. Resolve device(s)
-        selected_devices = [d for d in devices if d.name in device_names]
-        if len(selected_devices) != len(device_names):
-            raise ValueError("One or more device names not found.")
-
-        # 3. Command
-        command_cls = self._registry.get_device_command(command_name)
-        command = command_cls(self._template_provider)
-
-        # 4. Run command on devices
-        results = await self._runner.run(selected_devices, command)
-        result_dict = {}
-
-        for result in results:
-            result_dict[result["device"]] = result["result"]
-
-        return result_dict
+        expanded_device_names = self.expand_device_names(device_names)
+        return await self._command_executor_service.run(expanded_device_names, command_name)
 
     async def snapshot(self, device_names: List[str]) -> Dict[str, str]:
         """
         Takes a snapshot of the running config for each specified device
         and saves it to a timestamped file in the 'snapshots' directory.
         """
-        device_names = self.expand_device_names(device_names)
-        results = await self.run_device_command(device_names, "show-running-config")
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        snapshot_dir = Path("snapshots")
-        snapshot_dir.mkdir(parents=True, exist_ok=True)
-
-        for device, output in results.items():
-            file_path = snapshot_dir / f"{device}_running_config_{timestamp}.txt"
-            if isinstance(output, dict) and "config_lines" in output:
-                file_path.write_text("\n".join(output["config_lines"]))
-            else:
-                file_path.write_text(str(output))
-
-        return results
+        expanded_device_names = self.expand_device_names(device_names)
+        return await self._snapshot_service.snapshot(expanded_device_names)
 
     def set_log_level(self, level: str) -> None:
         """
