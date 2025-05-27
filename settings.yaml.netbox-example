@@ -1,0 +1,20 @@
+# Netimate settings for Netbox device repository
+device_repo: netbox
+log_level: info
+template_paths: ["netimate.plugins.device_commands.templates"]
+
+# Plugin settings
+plugin_configs:
+  netbox:
+    url: "http://localhost:8000"
+    token: "your_netbox_api_token"  # Generate this in the Netbox UI
+    ssl_verify: true
+    default_protocol: "ssh"
+    default_username: "admin"
+    default_password: "admin"  # Or use NETIMATE_NETBOX_PASSWORD env var
+  
+  # Connection protocol settings
+  scrapli_asyncssh:
+    transport_options:
+      asyncssh:
+        known_hosts_file: null  # Disable known hosts checking for testing

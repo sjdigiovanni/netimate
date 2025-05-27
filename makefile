@@ -33,4 +33,16 @@ import-lint: ## Run import linter
 
 ci: format lint type-check test import-lint complexity maintainability dead-code ## Run full local CI suite
 
-.PHONY: help format lint type-check test complexity maintainability dead-code import-lint ci
+netbox-up: ## Start the Netbox container for local testing
+	docker-compose up -d
+
+netbox-down: ## Stop the Netbox container
+	docker-compose down
+
+netbox-logs: ## View logs from the Netbox container
+	docker-compose logs -f netbox
+
+netbox-shell: ## Open a shell in the Netbox container
+	docker-compose exec netbox bash
+
+.PHONY: help format lint type-check test complexity maintainability dead-code import-lint ci netbox-up netbox-down netbox-logs netbox-shell

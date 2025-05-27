@@ -97,7 +97,7 @@ plugin_configs:
 
 ```
 
-* **`device_repo`** – which `DeviceRepository` plugin to load (`yaml`, `postgres`, etc.).  
+* **`device_repo`** – which `DeviceRepository` plugin to load (`yaml`, `postgres`, `netbox`, etc.).  
 * **`plugin_configs`** – per‑plugin config blocks forwarded untouched.  
 * **`template_paths`** – extra directories searched by the template provider.
 
@@ -242,6 +242,7 @@ graph TD
     subgraph Device_Repository_Plugins
         YAMLRepo["YAMLRepository"]
         PostgresRepo["PostgresRepository"]
+        NetboxRepo["NetboxRepository"]
     end
 
     %% ───── DEVICE COMMAND PLUG‑INS ─────
@@ -281,6 +282,7 @@ graph TD
 
     IF_Repo --> YAMLRepo
     IF_Repo --> PostgresRepo
+    IF_Repo --> NetboxRepo
 
     IF_Proto --> NetmikoSSH
     IF_Proto --> NetmikoTelnet
@@ -336,8 +338,46 @@ netimate run show-cdp-neighbors on r1
 
 ### Other plugin types
 * **ConnectionProtocol** – SSH, Telnet, RESTCONF, etc.  
-* **DeviceRepository** – YAML, CMDB, IPAM, Postgres…  
+* **DeviceRepository** – YAML, CMDB, IPAM, Postgres, Netbox…  
 See `/plugins/*` for working examples.
+
+### Using the Netbox Device Repository
+
+The Netbox device repository plugin allows you to retrieve device information from a Netbox instance.
+
+1. Configure the plugin in your `settings.yaml`:
+
+```yaml
+device_repo: netbox
+plugin_configs:
+  netbox:
+    url: "http://localhost:8000"
+    token: "your_netbox_api_token"
+    ssl_verify: true
+    default_protocol: "ssh"
+    default_username: "admin"
+    default_password: "admin"  # Or use NETIMATE_NETBOX_PASSWORD env var
+```
+
+2. Start a local Netbox instance for testing:
+
+```bash
+make netbox-up
+```
+
+3. Access the Netbox UI at http://localhost:8000 (admin/admin) to add devices.
+
+4. Run Netimate with the Netbox device repository:
+
+```bash
+netimate --shell
+```
+
+5. Stop the Netbox instance when done:
+
+```bash
+make netbox-down
+```
 
 ---
 

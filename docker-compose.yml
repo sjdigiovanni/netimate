@@ -1,0 +1,64 @@
+version: '3.4'
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=netbox
+      - POSTGRES_PASSWORD=netbox
+      - POSTGRES_DB=netbox
+    volumes:
+      - netbox-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U netbox"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    command: ["sh", "-c", "redis-server --requirepass redis"]
+    volumes:
+      - netbox-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redis", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  netbox:
+    image: netboxcommunity/netbox:latest
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - SUPERUSER_NAME=admin
+      - SUPERUSER_EMAIL=admin@example.com
+      - SUPERUSER_PASSWORD=admin
+      - ALLOWED_HOSTS=*
+      - DB_NAME=netbox
+      - DB_USER=netbox
+      - DB_PASSWORD=netbox
+      - DB_HOST=postgres
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=redis
+      - REDIS_DATABASE=0
+      - REDIS_CACHE_DATABASE=1
+      - REDIS_TASKS_DATABASE=2
+      - SKIP_SUPERUSER=false
+    ports:
+      - "8000:8080"
+    volumes:
+      - netbox-media-files:/opt/netbox/netbox/media
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  netbox-postgres-data:
+  netbox-redis-data:
+  netbox-media-files:
